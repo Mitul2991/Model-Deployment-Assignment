@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y git
 # RUN apt-get install python3-pip
 
 # Install python packages
-# RUN pip3 install --upgrade pip
+RUN pip3 install --upgrade pip
 ADD requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
 
