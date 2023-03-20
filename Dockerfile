@@ -14,8 +14,8 @@ RUN pip3 install -r requirements.txt
 # We add the banana boilerplate here
 ADD server.py .
 
-ADD pytorch_model_weights.pth .
-ADD pytorch_model.py .
+# copy the onnx model
+COPY model.onnx .
 
 # Add your model weight files 
 # (in this case we have a python script)
