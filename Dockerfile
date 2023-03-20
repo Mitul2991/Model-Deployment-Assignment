@@ -10,12 +10,12 @@ WORKDIR /
 RUN apt-get update && apt-get install -y git
 
 # Install pip3
-RUN apt-get install python3-pip
+# RUN apt-get install python3-pip
 
 # Install python packages
-RUN pip3 install --upgrade pip
+# RUN pip3 install --upgrade pip
 ADD requirements.txt requirements.txt
-RUN pip3 install -r requirements.txt
+RUN pip install -r requirements.txt
 
 # We add the banana boilerplate here
 ADD server.py .
