@@ -10,7 +10,7 @@ WORKDIR /
 RUN apt-get update && apt-get install -y git
 
 # Install pip3
-RUN apt-get update && apt-get install python3-pip
+RUN apt-get update && apt-get install -y python3-pip
 
 # Install python packages
 RUN pip3 install --upgrade pip
