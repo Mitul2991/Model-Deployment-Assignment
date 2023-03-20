@@ -14,8 +14,8 @@ RUN pip3 install -r requirements.txt
 # We add the banana boilerplate here
 ADD server.py .
 
-# copy the onnx model
-COPY model.onnx .
+# copy the onnx model from the google drive
+RUN curl -L -o model.onnx "https://drive.google.com/file/d/15rNpnW0O23eZHho4aMTpP_Eb2wtDWqoS/view?usp=share_link"
 
 # Add your model weight files 
 # (in this case we have a python script)
