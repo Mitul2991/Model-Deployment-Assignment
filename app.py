@@ -1,26 +1,19 @@
-from transformers import pipeline
+import pytorch_model as ptm
 import torch
 
-# Init is ran on server startup
-# Load your model to GPU as a global variable here using the variable name "model"
 def init():
     global model
-    
-    device = 0 if torch.cuda.is_available() else -1
-    model = pipeline('fill-mask', model='bert-base-uncased', device=device)
+    model = ptm.Classifier(ptm.BasicBlock, [2, 2, 2, 2])
+    model.load_state_dict(torch.load("pytorch_model_weights.pth"))
+    model.eval()
+    return model
 
-# Inference is ran for every server call
-# Reference your preloaded global model variable here.
 def inference(model_inputs:dict) -> dict:
-    global model
-
-    # Parse out your arguments
-    prompt = model_inputs.get('prompt', None)
-    if prompt == None:
-        return {'message': "No prompt provided"}
-    
-    # Run the model
-    result = model(prompt)
-
-    # Return the results as a dictionary
-    return result
+    model = init()
+    img = model_inputs.get('prompt')
+    if img == None:
+        return {'message' : 'No image provided'}
+    inp = model.preprocess_numpy(img).unsqueeze(0)
+    res = model.forward(inp)
+    output = {'class_id' : torch.argmax(res)}
+    return output
