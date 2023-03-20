@@ -3,6 +3,7 @@ import onnxruntime
 import torch
 import numpy as np
 from torchvision import transforms
+from PIL import Image
 
 def init():
     global model
@@ -25,6 +26,7 @@ def inference(model_inputs:dict) -> dict:
     img = model_inputs.get('prompt')
     if img == None:
         return {'message' : 'No image provided'}
+    img = Image.open(img)
     img = preprocess_numpy(img)
     input_name = model.get_inputs()[0].name
     img = np.array(np.expand_dims(img, axis=0))
