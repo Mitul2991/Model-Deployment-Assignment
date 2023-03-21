@@ -32,9 +32,10 @@ def inference(model_inputs:dict) -> dict:
     img_bytes_str = model_inputs.get('prompt')
     if img_bytes_str == None:
         return {'message' : 'No image provided'}
-    img_encoded = img_bytes_str.encode('utf-8')
-    img = BytesIO(base64.b64decode(img_encoded))
-    img = Image.open(img)
+    width = model_inputs.get('width')
+    height = model_inputs.get('height')
+    img_bytes = base64.b64decode(img_bytes_str)
+    img = Image.frombytes(mode='RGB',size=(width,height), data=img_bytes)
     img = preprocess_numpy(img)
     input_name = model.get_inputs()[0].name
     img = np.array(np.expand_dims(img, axis=0))
