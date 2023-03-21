@@ -3,9 +3,10 @@ import onnxruntime
 import torch
 import numpy as np
 from torchvision import transforms
-from PIL import Image
 import convert_to_onnx as cto
 import pytorch_model as ptm
+from io import BytesIO
+from PIL import Image
 
 def init():
     global model
@@ -27,9 +28,10 @@ def preprocess_numpy(img):
 
 def inference(model_inputs:dict) -> dict:
     model = init()
-    img = model_inputs.get('prompt')
-    if img == None:
+    img_bytes = model_inputs.get('prompt')
+    if img_bytes == None:
         return {'message' : 'No image provided'}
+    img = BytesIO(img_bytes)
     img = Image.open(img)
     img = preprocess_numpy(img)
     input_name = model.get_inputs()[0].name
