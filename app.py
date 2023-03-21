@@ -1,17 +1,21 @@
 import onnx
-import onnxruntime
+# import onnxruntime
 import torch
 import numpy as np
 from torchvision import transforms
 from PIL import Image
+import convert_to_onnx as cto
+import pytorch_model as ptm
 
 def init():
     global model
+    model = ptm.Classifier(ptm.BasicBlock, [2, 2, 2, 2])
+    print (cto.convert_pyt_to_onnx(model))
     model = onnxruntime.InferenceSession('model.onnx')
     return model
 
 def preprocess_numpy(img):
-        resize = transforms.Resize((224, 224))   #must same as here
+        resize = transforms.Resize((224, 224))
         crop = transforms.CenterCrop((224, 224))
         to_tensor = transforms.ToTensor()
         normalize = transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
