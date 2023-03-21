@@ -1,16 +1,10 @@
 # Must use a Cuda version 11+
 FROM pytorch/pytorch:1.11.0-cuda11.3-cudnn8-runtime
 
-FROM ubuntu:latest
-RUN apt-get update && apt-get install -y curl
-
 WORKDIR /
 
 # Install git
 RUN apt-get update && apt-get install -y git
-
-# Install pip3
-RUN apt-get update && apt-get install -y python3-pip
 
 # Install python packages
 RUN pip3 install --upgrade pip
@@ -28,6 +22,11 @@ RUN curl -L -o model.onnx "https://drive.google.com/file/d/15rNpnW0O23eZHho4aMTp
 ADD download.py .
 RUN python3 download.py
 
+# adding the original pytorch model implementation file
+ADD pytorch_model.py .
+
+# adding a module that converts the pytorch model into the onnx model
+ADD convert_to_onnx.py .
 
 # Add your custom app code, init() and inference()
 ADD app.py .
