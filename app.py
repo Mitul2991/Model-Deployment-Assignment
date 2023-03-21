@@ -1,5 +1,5 @@
 import onnx
-# import onnxruntime
+import onnxruntime
 import torch
 import numpy as np
 from torchvision import transforms
