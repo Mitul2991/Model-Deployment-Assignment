@@ -3,8 +3,10 @@ import base64
 from io import BytesIO
 from PIL import Image
 
+img = Image.open("n01440764_tench.jpeg")
+img_bytes = img.tobytes()
 model_inputs={
-    'prompt' : "n01440764_tench.jpeg"
+    'prompt' : img_bytes
 }
 
 api_key = '1d77c452-d738-4da7-92b4-a839beb350de'
