@@ -41,6 +41,6 @@ def inference(model_inputs:dict) -> dict:
     img = np.array(np.expand_dims(img, axis=0))
     output = model.run(None, {input_name : img})[0]
     output_tensor = torch.from_numpy(output)
-    pred_class_id = torch.argmax(output_tensor)
+    pred_class_id = torch.argmax(output_tensor).item()
     response = {'predicted_class_id' : pred_class_id}
     return response
