@@ -1,6 +1,7 @@
 import onnx
 import onnxruntime
 import torch
+import base64
 import numpy as np
 from torchvision import transforms
 import convert_to_onnx as cto
@@ -28,10 +29,11 @@ def preprocess_numpy(img):
 
 def inference(model_inputs:dict) -> dict:
     model = init()
-    img_bytes = model_inputs.get('prompt')
-    if img_bytes == None:
+    img_bytes_str = model_inputs.get('prompt')
+    if img_bytes_str == None:
         return {'message' : 'No image provided'}
-    img = BytesIO(img_bytes)
+    img_encoded = img_bytes_str.encode('utf-8')
+    img = BytesIO(base64.b64decode(img_encoded))
     img = Image.open(img)
     img = preprocess_numpy(img)
     input_name = model.get_inputs()[0].name
